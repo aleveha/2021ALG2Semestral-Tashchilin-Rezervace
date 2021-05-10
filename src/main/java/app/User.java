@@ -16,7 +16,7 @@ public class User {
      * @param lastName lastname
      * @param age age
      */
-    public User(String email, String password, String firstName, String lastName, String userName, int age) {
+    public User(String email, String password, String firstName, String lastName, int age) {
         this.id = ++this.id;
         this.email = email;
         this.password = password;
@@ -73,8 +73,12 @@ public class User {
         return age;
     }
 
+    /**
+     *
+     * @return user information
+     */
     @Override
     public String toString() {
-        return String.format("Name: %s, lastname: %s, age: %d", getFirstName(), getLastName(), getAge());
+        return String.format("Name: %s\nLastname: %s\nAge: %d", getFirstName(), getLastName(), getAge());
     }
 }
