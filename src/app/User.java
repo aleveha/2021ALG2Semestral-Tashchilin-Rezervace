@@ -2,12 +2,11 @@ package app;
 
 public class User {
     private int id = 0;
-    private String email;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private String userName;
-    private int age;
+    private final String email;
+    private final String password;
+    private final String firstName;
+    private final String lastName;
+    private final int age;
 
     /**
      *
@@ -23,7 +22,6 @@ public class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userName = userName;
         this.age = age;
     }
 
