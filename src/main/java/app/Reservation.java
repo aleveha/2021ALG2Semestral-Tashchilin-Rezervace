@@ -1,43 +1,42 @@
 package app;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Reservation {
-     LocalDate date;
-     LocalTime time;
-     User user;
+    String date;
+    String time;
+    User user;
 
     /**
-     *
      * @param date reservation date
      * @param time reservation time
      * @param user user
      */
-    public Reservation(LocalDate date, LocalTime time, User user) {
+    public Reservation(
+            @JsonProperty("date") String date,
+            @JsonProperty("time") String time,
+            @JsonProperty("user") User user
+    ) {
         this.date = date;
         this.time = time;
         this.user = user;
     }
 
     /**
-     *
      * @return reservation date
      */
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
     /**
-     *
      * @return reservation time
      */
-    public LocalTime getTime() {
+    public String getTime() {
         return time;
     }
 
     /**
-     *
      * @return reservation owner
      */
     public User getUser() {
@@ -45,7 +44,6 @@ public class Reservation {
     }
 
     /**
-     *
      * @return reservation information
      */
     @Override

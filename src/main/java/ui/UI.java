@@ -4,10 +4,8 @@ import app.Reservation;
 import app.User;
 import core.App;
 import core.AuthorizationManager;
+import core.UserDoesNotExistException;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -25,7 +23,6 @@ public class UI {
 
     public void run() {
         startMessage();
-        loginMessage();
         entryForm();
         reservationForm();
         endMessage();
@@ -52,15 +49,24 @@ public class UI {
             System.out.print("Enter password: ");
             String password = sc.nextLine();
 
-            this.currentUser = authManager.login(login, password);
+            try {
+                this.currentUser = authManager.logIn(login, password);
+                System.out.print(currentUser != null ? "You are successfully logged in.\n\n" : "Wrong login or password.\nDo you want to try again?(t/n):");
+            } catch (UserDoesNotExistException ex) {
+                System.out.println(ex.getMessage());
+                System.out.print("Do you want to try again, register or exit?(t/r/n):");
+            }
 
-            System.out.print(currentUser != null ? "You are successfully logged in.\n" : "Wrong login or password.\nDo you want to try again?(y/n):");
             tryAgain = currentUser == null ? sc.nextLine() : "n";
-        } while (currentUser == null || tryAgain.trim().equalsIgnoreCase("y"));
+            if (tryAgain.equalsIgnoreCase("r")) {
+                signIn();
+                break;
+            }
+        } while (currentUser == null && tryAgain.trim().equalsIgnoreCase("t"));
     }
 
     private void signIn() {
-        System.out.print("\nSIGN IN FORM:");
+        System.out.println("\nSIGN IN FORM:");
 
         System.out.print("Enter firstname: ");
         String firstname = sc.nextLine();
@@ -70,6 +76,7 @@ public class UI {
 
         System.out.print("Enter age: ");
         int age = sc.nextInt();
+        sc.nextLine();
 
         System.out.print("Enter e-mail: ");
         String email = sc.nextLine();
@@ -87,18 +94,22 @@ public class UI {
             }
         } while (!pwd.equals(submit_pwd));
 
-        currentUser = new User(email, pwd, firstname, lastname, age);
+        User newUser = new User(email, pwd, firstname, lastname, age);
+        currentUser = authManager.signIn(newUser);
 
-        System.out.println(currentUser != null ? "You are successfully signed in.\n" : "Something went wrong.\n");
+        System.out.println(currentUser != null ? "You are successfully signed in.\n" : "User with same email already exists.\n");
+        if (currentUser == null) {
+            entryForm();
+        }
     }
 
     private void logOut() {
-        currentUser = authManager.logout();
-
+        currentUser = authManager.logOut();
         System.out.println(currentUser == null ? "You are successfully logged out.\n" : "Something went wrong.\n");
     }
 
     private void entryForm() {
+        loginMessage();
         String enterChoice = sc.nextLine();
         switch (enterChoice.toLowerCase(Locale.ROOT)) {
             case "l" -> logIn();
@@ -114,7 +125,6 @@ public class UI {
 
     private void makeReservation() {
         String datePattern = "dd.MM.yyyy";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(datePattern);
         System.out.println("MAKE RESERVATION FORM:\n");
 
         System.out.printf("Enter date using format (%s): ", datePattern.toUpperCase(Locale.ROOT));
@@ -123,8 +133,8 @@ public class UI {
         System.out.print("Enter time using format (HH:MM): ");
         String time = sc.nextLine();
 
-        Reservation reservation = app.makeReservation(currentUser, new Reservation(LocalDate.parse(date, formatter), LocalTime.parse(time), currentUser));
-        System.out.println(currentUser != null ? "\nYour new reservation successfully ended!\nYou will find information about it below.\n\n" + reservation : "Something went wrong.\n");
+        Reservation reservation = app.makeReservation(new Reservation(date, time, currentUser));
+        System.out.println(reservation == null ? "This term is already taken." : "\nYour new reservation successfully ended!\nYou will find information about it below.\n\n" + reservation);
     }
 
     private void printReservations() {
@@ -138,7 +148,7 @@ public class UI {
     }
 
     private void reservationForm() {
-        System.out.println("\nMAIN MENU:");
+        System.out.println("MAIN MENU:");
 
         while (currentUser != null) {
             actionChoiceMessage();
@@ -148,7 +158,7 @@ public class UI {
             switch (actionChoice.toLowerCase(Locale.ROOT)) {
                 case "m" -> makeReservation();
                 case "p" -> printReservations();
-                case "x" -> logOut();
+                case "x" -> entryForm();
                 default -> System.out.println("Wrong button. Try again.");
             }
         }
