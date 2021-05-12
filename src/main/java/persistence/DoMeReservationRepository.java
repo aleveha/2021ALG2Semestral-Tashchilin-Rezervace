@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import core.CreatingFileException;
 import core.ReadingFileException;
 import core.ReservationRepository;
+import utils.DateTimeParser;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DoMeReservationRepository implements ReservationRepository {
     List<Reservation> allReservations = null;
@@ -22,7 +24,7 @@ public class DoMeReservationRepository implements ReservationRepository {
     @Override
     public List<Reservation> getAll(String email) {
         checkCache();
-        return allReservations;
+        return allReservations.stream().filter(reservation -> reservation.getUser().getEmail().equalsIgnoreCase(email)).collect(Collectors.toList());
     }
 
     @Override
@@ -64,9 +66,7 @@ public class DoMeReservationRepository implements ReservationRepository {
     private boolean exists(Reservation newReservation) {
         return allReservations
                 .stream()
-                .filter(reservation -> reservation.getDate().equals(newReservation.getDate()) && reservation.getTime().equals(newReservation.getTime()))
-                .findFirst()
-                .orElse(null) != null;
+                .anyMatch(reservation -> reservation.getDate().equals(newReservation.getDate()) && reservation.getTime().equals(newReservation.getTime()));
     }
 
     private boolean isEmpty() {

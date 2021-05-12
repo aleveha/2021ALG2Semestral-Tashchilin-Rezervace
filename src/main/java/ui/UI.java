@@ -5,10 +5,16 @@ import app.User;
 import core.App;
 import core.AuthorizationManager;
 import core.UserDoesNotExistException;
+import utils.DateTimeParser;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+
+import static utils.DateTimeParser.datePattern;
+import static utils.DateTimeParser.timePattern;
 
 public class UI {
     public Scanner sc = new Scanner(System.in);
@@ -43,7 +49,7 @@ public class UI {
 
         String tryAgain;
         do {
-            System.out.print("Enter login: ");
+            System.out.print("Enter email: ");
             String login = sc.nextLine();
 
             System.out.print("Enter password: ");
@@ -124,16 +130,31 @@ public class UI {
     }
 
     private void makeReservation() {
-        String datePattern = "dd.MM.yyyy";
-        System.out.println("MAKE RESERVATION FORM:\n");
+        System.out.println("MAKE RESERVATION FORM:");
+        LocalDate date = null;
+        LocalTime time = null;
 
-        System.out.printf("Enter date using format (%s): ", datePattern.toUpperCase(Locale.ROOT));
-        String date = sc.nextLine();
+        while (date == null) {
+            System.out.printf("Enter date using format (%s): ", datePattern.toUpperCase(Locale.ROOT));
+            String inputDate = sc.nextLine();
 
-        System.out.print("Enter time using format (HH:MM): ");
-        String time = sc.nextLine();
+            date = DateTimeParser.parseDate(inputDate);
+            if (date == null) {
+                System.out.println("Invalid date. Try again.");
+            }
+        }
 
-        Reservation reservation = app.makeReservation(new Reservation(date, time, currentUser));
+        while (time == null) {
+            System.out.printf("Enter time using format (%s): ", timePattern.toUpperCase(Locale.ROOT));
+            String inputTime = sc.nextLine();
+
+            time = DateTimeParser.parseTime(inputTime);
+            if (time == null) {
+                System.out.println("Invalid time. Try again.");
+            }
+        }
+
+        Reservation reservation = app.makeReservation(new Reservation(DateTimeParser.dateToString(date), DateTimeParser.timeToString(time), currentUser));
         System.out.println(reservation == null ? "This term is already taken." : "\nYour new reservation successfully ended!\nYou will find information about it below.\n\n" + reservation);
     }
 
