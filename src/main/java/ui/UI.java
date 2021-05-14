@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import static utils.DateTimeParser.datePattern;
 import static utils.DateTimeParser.timePattern;
@@ -49,14 +50,11 @@ public class UI {
 
         String tryAgain;
         do {
-            System.out.print("Enter email: ");
-            String login = sc.nextLine();
-
-            System.out.print("Enter password: ");
-            String password = sc.nextLine();
+            String email = getEmail();
+            String password = getField("password");
 
             try {
-                this.currentUser = authManager.logIn(login, password);
+                this.currentUser = authManager.logIn(email, password);
                 System.out.print(currentUser != null ? "You are successfully logged in.\n\n" : "Wrong login or password.\nDo you want to try again?(t/n):");
             } catch (UserDoesNotExistException ex) {
                 System.out.println(ex.getMessage());
@@ -74,31 +72,11 @@ public class UI {
     private void signIn() {
         System.out.println("\nSIGN IN FORM:");
 
-        System.out.print("Enter firstname: ");
-        String firstname = sc.nextLine();
-
-        System.out.print("Enter lastname: ");
-        String lastname = sc.nextLine();
-
-        System.out.print("Enter age: ");
-        int age = sc.nextInt();
-        sc.nextLine();
-
-        System.out.print("Enter e-mail: ");
-        String email = sc.nextLine();
-
-        String pwd, submit_pwd;
-        do {
-            System.out.print("Enter password: ");
-            pwd = sc.nextLine();
-
-            System.out.print("Submit password: ");
-            submit_pwd = sc.nextLine();
-
-            if (!pwd.equals(submit_pwd)) {
-                System.out.println("Passwords do not match!");
-            }
-        } while (!pwd.equals(submit_pwd));
+        String firstname = getField("firstname");
+        String lastname = getField("lastname");
+        int age = getAge();
+        String email = getEmail();
+        String pwd = getPassword();
 
         User newUser = new User(email, pwd, firstname, lastname, age);
         currentUser = authManager.signIn(newUser);
@@ -112,6 +90,77 @@ public class UI {
     private void logOut() {
         currentUser = authManager.logOut();
         System.out.println(currentUser == null ? "You are successfully logged out.\n" : "Something went wrong.\n");
+    }
+
+    private String getField(String name) {
+        String field;
+        boolean incorrectField;
+
+        do {
+            System.out.print("Enter " + name + ": ");
+            field = sc.nextLine();
+            incorrectField = field.length() < 2 || field.length() > 50;
+
+            if (incorrectField) {
+                System.out.printf("Incorrect %s! Value must contain from 2 to 50 characters. Try again:\n", name);
+            }
+        }while (incorrectField);
+
+        return field;
+    }
+
+    private int getAge() {
+        int age;
+        boolean unrealAge;
+
+        do {
+            System.out.print("Enter age: ");
+            age = sc.nextInt();
+            sc.nextLine();
+            unrealAge = age < 1 || age > 110;
+
+            if (unrealAge) {
+                System.out.println("Incorrect age! Try again:");
+            }
+        } while (unrealAge);
+
+        return age;
+    }
+
+    private String getEmail() {
+        String email;
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        Pattern pattern = Pattern.compile(regex);
+        boolean incorrectEmailFormat;
+
+        do {
+            email = getField("e-mail");
+            incorrectEmailFormat = !pattern.matcher(email).matches();
+
+            if (incorrectEmailFormat) {
+                System.out.println("Incorrect e-mail format! Try again.");
+            }
+        } while (incorrectEmailFormat);
+
+        return email;
+    }
+
+    private String getPassword() {
+        String pwd, submitPwd;
+        boolean pwdDoNotMatch;
+
+        do {
+            pwd = getField("password");
+            submitPwd = getField("control of password");
+
+            pwdDoNotMatch = !pwd.equals(submitPwd) || pwd.length() < 1;
+
+            if (pwdDoNotMatch) {
+                System.out.println("Passwords do not match! Try again.");
+            }
+        } while (pwdDoNotMatch);
+
+        return pwd;
     }
 
     private void entryForm() {

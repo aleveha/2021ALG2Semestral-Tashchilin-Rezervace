@@ -1,1 +1,23 @@
-[{"id":1,"email":"test","password":"test","firstName":"test","lastName":"test","age":20}]
+[
+  {
+    "email": "nikita.tashilin@gmail.com",
+    "password": "21022001qQ",
+    "firstName": "Nikita",
+    "lastName": "Tashchilin",
+    "age": 20
+  },
+  {
+    "email": "test@test.com",
+    "password": "test",
+    "firstName": "test",
+    "lastName": "test",
+    "age": 2
+  },
+  {
+    "email": "alex.gate@gmail.com",
+    "password": "0000",
+    "firstName": "Alex",
+    "lastName": "Gate",
+    "age": 24
+  }
+]

@@ -3,9 +3,9 @@ package app;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Reservation {
-    String date;
-    String time;
-    User user;
+    private final String date;
+    private final String time;
+    private final User user;
 
     /**
      * @param date reservation date
