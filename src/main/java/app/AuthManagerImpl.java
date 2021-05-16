@@ -1,6 +1,7 @@
 package app;
 
 import core.AuthorizationManager;
+import core.User;
 import core.UserDoesNotExistException;
 import core.UserRepository;
 import persistence.UserRepositoryImpl;

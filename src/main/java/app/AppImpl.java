@@ -1,8 +1,6 @@
 package app;
 
-import core.App;
-import core.IEmailSender;
-import core.ReservationRepository;
+import core.*;
 import persistence.ReservationRepositoryImpl;
 
 import java.util.List;

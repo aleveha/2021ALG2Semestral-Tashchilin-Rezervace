@@ -1,7 +1,5 @@
 package core;
 
-import app.User;
-
 public abstract class AuthorizationManager {
     /**
      * Logging in

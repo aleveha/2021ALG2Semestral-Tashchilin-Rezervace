@@ -1,7 +1,5 @@
 package core;
 
-import app.User;
-
 public interface UserRepository {
     /**
      * Getting user information

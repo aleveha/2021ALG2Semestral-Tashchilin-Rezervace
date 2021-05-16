@@ -1,6 +1,6 @@
 package persistence;
 
-import app.User;
+import core.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import core.CreatingFileException;
 import core.ReadingFileException;

@@ -1,7 +1,7 @@
 package ui;
 
-import app.Reservation;
-import app.User;
+import core.Reservation;
+import core.User;
 import core.App;
 import core.AuthorizationManager;
 import core.UserDoesNotExistException;

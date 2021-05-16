@@ -2,6 +2,8 @@ package app;
 
 import core.IEmailSender;
 import core.ReadingFileException;
+import core.Reservation;
+import core.User;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

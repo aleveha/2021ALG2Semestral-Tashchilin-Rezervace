@@ -1,7 +1,5 @@
 package core;
 
-import app.Reservation;
-
 import java.util.List;
 
 public interface ReservationRepository {
