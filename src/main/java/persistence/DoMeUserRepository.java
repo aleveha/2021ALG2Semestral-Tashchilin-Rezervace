@@ -19,12 +19,22 @@ public class DoMeUserRepository implements UserRepository {
     File file = new File(path);
     List<User> allUsers = null;
 
+    /**
+     * Getting user's information
+     * @param email user's email
+     * @return user information if user exists, else return null
+     */
     @Override
     public User get(String email) {
-        checkCache();
+        fillUpCache();
         return allUsers.stream().filter(user -> user.getEmail().equalsIgnoreCase(email)).findFirst().orElse(null);
     }
 
+    /**
+     * Adding a new user
+     * @param user user
+     * @return user if successfully added, else return null
+     */
     @Override
     public User add(User user) {
         if (exists(user.getEmail())) {
@@ -40,6 +50,9 @@ public class DoMeUserRepository implements UserRepository {
         }
     }
 
+    /**
+     * Getting data to cache
+     */
     @Override
     public void getData() {
         if (!file.exists()) {
@@ -61,8 +74,13 @@ public class DoMeUserRepository implements UserRepository {
         }
     }
 
+    /**
+     * Checking if user already exists
+     * @param email user's email
+     * @return true if user is already exists, false if does not
+     */
     private boolean exists(String email) {
-        checkCache();
+        fillUpCache();
         return allUsers
                 .stream()
                 .filter(user -> user.getEmail().equalsIgnoreCase(email))
@@ -70,11 +88,18 @@ public class DoMeUserRepository implements UserRepository {
                 .orElse(null) != null;
     }
 
+    /**
+     * Checking if cache is empty
+     * @return true if is empty, false if does not
+     */
     private boolean isEmpty() {
         return allUsers == null;
     }
 
-    private void checkCache() {
+    /**
+     * Filling up cache if it is empty
+     */
+    private void fillUpCache() {
         if (isEmpty()) {
             getData();
         }

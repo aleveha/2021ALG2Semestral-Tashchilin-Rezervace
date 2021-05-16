@@ -36,7 +36,7 @@ public class UI {
     }
 
     private void startMessage() {
-        String startMsg = "Welcome to COVID-19 reservation system!\nFollow instructions below to make a reservation.\n";
+        String startMsg = "\nWelcome to COVID-19 reservation system!\nFollow instructions below to make a reservation.\n";
         System.out.println(startMsg);
     }
 
@@ -55,7 +55,11 @@ public class UI {
 
             try {
                 this.currentUser = authManager.logIn(email, password);
-                System.out.print(currentUser != null ? "You are successfully logged in.\n\n" : "Wrong login or password.\nDo you want to try again?(t/n):");
+                System.out.print(
+                        currentUser != null ?
+                                "You are successfully logged in.\n\n":
+                                "Wrong login or password.\nDo you want to try again?(t/n):"
+                );
             } catch (UserDoesNotExistException ex) {
                 System.out.println(ex.getMessage());
                 System.out.print("Do you want to try again, register or exit?(t/r/n):");
@@ -81,7 +85,10 @@ public class UI {
         User newUser = new User(email, pwd, firstname, lastname, age);
         currentUser = authManager.signIn(newUser);
 
-        System.out.println(currentUser != null ? "You are successfully signed in.\n" : "User with same email already exists.\n");
+        System.out.println(currentUser != null ?
+                "You are successfully signed in.\n" :
+                "User with same email already exists.\n"
+        );
         if (currentUser == null) {
             entryForm();
         }
@@ -89,7 +96,10 @@ public class UI {
 
     private void logOut() {
         currentUser = authManager.logOut();
-        System.out.println(currentUser == null ? "You are successfully logged out.\n" : "Something went wrong.\n");
+        System.out.println(currentUser == null ?
+                "You are successfully logged out.\n" :
+                "Something went wrong.\n"
+        );
     }
 
     private String getField(String name) {
@@ -203,8 +213,9 @@ public class UI {
             }
         }
 
+        System.out.println("\nProcessing your reservation...\n");
         Reservation reservation = app.makeReservation(new Reservation(DateTimeParser.dateToString(date), DateTimeParser.timeToString(time), currentUser));
-        System.out.println(reservation == null ? "This term is already taken." : "\nYour new reservation successfully ended!\nYou will find information about it below.\n\n" + reservation);
+        System.out.println(reservation == null ? "\nThis term is already taken." : "\nYour new reservation successfully ended!\nYou will find information about it below.\n\n" + reservation);
     }
 
     private void printReservations() {

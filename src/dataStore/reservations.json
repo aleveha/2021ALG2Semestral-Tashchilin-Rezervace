@@ -1,1 +1,24 @@
-[{"date":"15.05.2021","time":"14:00","user":{"email":"nikita.tashilin@gmail.com","password":"21022001qQ","firstName":"Nikita","lastName":"Tashchilin","age":20}},{"date":"28.02.2022","time":"13:00","user":{"email":"test@test.com","password":"test","firstName":"test","lastName":"test","age":2}},{"date":"31.05.2021","time":"14:15","user":{"email":"test@test.com","password":"test","firstName":"test","lastName":"test","age":2}},{"date":"12.06.2021","time":"15:05","user":{"email":"test@test.com","password":"test","firstName":"test","lastName":"test","age":2}},{"date":"15.05.2021","time":"12:00","user":{"email":"nikita.tashilin@gmail.com","password":"21022001qQ","firstName":"Nikita","lastName":"Tashchilin","age":20}},{"date":"15.05.2021","time":"13:00","user":{"email":"nikita.tashilin@gmail.com","password":"21022001qQ","firstName":"Nikita","lastName":"Tashchilin","age":20}}]
+[
+  {
+    "date": "31.05.2021",
+    "time": "14:15",
+    "user": {
+      "email": "test@test.com",
+      "password": "test",
+      "firstName": "test",
+      "lastName": "test",
+      "age": 2
+    }
+  },
+  {
+    "date": "15.05.2021",
+    "time": "12:00",
+    "user": {
+      "email": "nikita.tashilin@gmail.com",
+      "password": "21022001qQ",
+      "firstName": "Nikita",
+      "lastName": "Tashchilin",
+      "age": 20
+    }
+  }
+]

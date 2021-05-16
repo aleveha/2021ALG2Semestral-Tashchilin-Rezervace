@@ -11,6 +11,11 @@ public class DateTimeParser {
 
     private DateTimeParser() {}
 
+    /**
+     * Parsing string to be parsed and checked
+     * @param date date as string
+     * @return LocalDate if input string is a real date according to special format
+     */
     public static LocalDate parseDate (String date) {
         try {
             return LocalDate.parse(date, DateTimeFormatter.ofPattern(datePattern));
@@ -19,6 +24,11 @@ public class DateTimeParser {
         }
     }
 
+    /**
+     * Parsing string to be parsed and checked
+     * @param time time as string
+     * @return LocalTime if input string is a real time according to special format
+     */
     public static LocalTime parseTime (String time) {
         try {
             return LocalTime.parse(time, DateTimeFormatter.ofPattern(timePattern));
@@ -27,10 +37,20 @@ public class DateTimeParser {
         }
     }
 
+    /**
+     * Parsing LocalDate in special format to string
+     * @param date date to be parsed
+     * @return parsed date as string
+     */
     public static String dateToString(LocalDate date) {
         return date.format(DateTimeFormatter.ofPattern(datePattern));
     }
 
+    /**
+     * Parsing LocalTime in special format to string
+     * @param time time to be parsed
+     * @return parsed time as string
+     */
     public static String timeToString(LocalTime time) {
         return time.format(DateTimeFormatter.ofPattern(timePattern));
     }

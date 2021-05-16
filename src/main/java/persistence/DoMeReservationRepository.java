@@ -20,12 +20,22 @@ public class DoMeReservationRepository implements ReservationRepository {
     String path = "src/dataStore/reservations.json";
     File file = new File(path);
 
+    /**
+     * Getting all user's reservations
+     * @param email user's email
+     * @return list of reservations
+     */
     @Override
     public List<Reservation> getAll(String email) {
-        checkCache();
+        fillUpCache();
         return allReservations.stream().filter(reservation -> reservation.getUser().getEmail().equalsIgnoreCase(email)).collect(Collectors.toList());
     }
 
+    /**
+     * Adding a new reservation
+     * @param reservation new reservation
+     * @return new reservation
+     */
     @Override
     public Reservation add(Reservation reservation) {
         if (exists(reservation)) {
@@ -41,6 +51,9 @@ public class DoMeReservationRepository implements ReservationRepository {
         }
     }
 
+    /**
+     * Getting data to cache
+     */
     @Override
     public void getData() {
         if (!file.exists()) {
@@ -62,17 +75,29 @@ public class DoMeReservationRepository implements ReservationRepository {
         }
     }
 
+    /**
+     * Checking if the reservation already exists
+     * @param newReservation new reservation to be added
+     * @return true if same reservation is already exists, false if does not
+     */
     private boolean exists(Reservation newReservation) {
         return allReservations
                 .stream()
                 .anyMatch(reservation -> reservation.getDate().equals(newReservation.getDate()) && reservation.getTime().equals(newReservation.getTime()));
     }
 
+    /**
+     * Checking cache
+     * @return true if cache is empty, false if does not
+     */
     private boolean isEmpty() {
         return allReservations == null;
     }
 
-    private void checkCache() {
+    /**
+     * Filling up cache if it is empty
+     */
+    private void fillUpCache() {
         if (isEmpty()) {
             getData();
         }

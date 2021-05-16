@@ -8,6 +8,12 @@ import persistence.DoMeUserRepository;
 public class DoMeAuthManager extends AuthorizationManager {
     private final UserRepository userRepository = new DoMeUserRepository();
 
+    /**
+     * Logging in
+     * @param email user's email
+     * @param password user's password
+     * @return user if successfully logged in, else return null
+     */
     @Override
     public User logIn(String email, String password) {
         userRepository.getData();
@@ -22,11 +28,20 @@ public class DoMeAuthManager extends AuthorizationManager {
         return null;
     }
 
+    /**
+     * Logging out
+     * @return null
+     */
     @Override
     public User logOut() {
         return null;
     }
 
+    /**
+     * Signing in
+     * @param user user
+     * @return user if succesfully signed in, else return null
+     */
     @Override
     public User signIn(User user) {
         userRepository.getData();

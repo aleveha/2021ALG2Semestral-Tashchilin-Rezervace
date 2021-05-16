@@ -1,17 +1,23 @@
 package app;
 
 import core.App;
+import core.ReadingFileException;
 import core.ReservationRepository;
 import persistence.DoMeReservationRepository;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 
 public class DoMeApp extends App {
     private final ReservationRepository reservationRepository = new DoMeReservationRepository();
 
+    /**
+     * Making a new reservation
+     * @param reservation reservation
+     * @return reservation if reservation is successfully created, else return null
+     */
     @Override
     public Reservation makeReservation(Reservation reservation) {
         reservationRepository.getData();
@@ -24,63 +30,67 @@ public class DoMeApp extends App {
         return null;
     }
 
+    /**
+     * Getting all user's reservations
+     * @param user user
+     * @return all user's reservations
+     */
     @Override
     public List<Reservation> getReservations(User user) {
         reservationRepository.getData();
         return reservationRepository.getAll(user.getEmail());
     }
 
-    private void sendEmail(Reservation reservation) {
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", true);
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.mailtrap.io");
-        props.put("mail.smtp.port", "2525");
-        props.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
-
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("e455f6b6cac32f", "46c62a74f2204d");
-            }
-        });
-
+    /**
+     * Sending reservation information by email
+     * @param reservation reservation
+     */
+    private static void sendEmail(Reservation reservation) {
         User user = reservation.getUser();
-        String emailFrom = "covid_19_test_reservation@outlook.com";
-        String emailTo = user.getEmail();
-        String message = String.format(
-                """
-                        Hello, %s %s!
+        String emailTo = reservation.getUser().getEmail();
+        String title = "Covid-19 test reservation";
+        String message = replaceTemplateVariables(readTemplate(), user, reservation, title);
 
-                        Your have been successfully registered to Covid-19 test.
-                        You will find all information below
+        OutlookEmailSender emailSender = new OutlookEmailSender(emailTo, message, title);
+        emailSender.sendEmail();
+    }
 
-                        %s
-                        
-                        With best regards,
-                        Covid-19 test reservation system""",
-                user.getLastName(),
-                user.getFirstName(),
-                reservation
-        );
+    /**
+     * Reading HTML email template
+     * @return HTML email template as string
+     */
+    private static String readTemplate() {
+        StringBuilder contentBuilder = new StringBuilder();
 
         try {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(emailFrom));
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo));
-            msg.setSubject("Covid-19 test reservation");
-
-            MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setContent(message, "text/html");
-
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(mimeBodyPart);
-
-            msg.setContent(multipart);
-
-            Transport.send(msg);
-        } catch (MessagingException messagingException) {
-            throw new RuntimeException("Error occurred while sending a message!");
+            BufferedReader in = new BufferedReader(new FileReader("src/dataStore/emailTemplate.html"));
+            String str;
+            while ((str = in.readLine()) != null) {
+                contentBuilder.append(str);
+            }
+            in.close();
+        } catch (IOException ex) {
+            throw new ReadingFileException("Problems with reading the file.\n" + ex.getMessage());
         }
+
+        return contentBuilder.toString();
+    }
+
+    /**
+     * Creating email content
+     * @param template email template
+     * @param user user
+     * @param reservation reservation
+     * @param title email title
+     * @return complete email content from email template
+     */
+    private static String replaceTemplateVariables(String template, User user, Reservation reservation, String title) {
+        return template
+                .replace("$title", title)
+                .replace("$name", user.getFirstName())
+                .replace("$lastName", user.getLastName())
+                .replace("$date", reservation.getDate())
+                .replace("$time", reservation.getTime())
+                .replace("$age", Integer.toString(user.getAge()));
     }
 }
