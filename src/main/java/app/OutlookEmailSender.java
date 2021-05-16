@@ -25,11 +25,8 @@ public class OutlookEmailSender extends EmailSender {
 
     /**
      * OutlookEmailSender constructor
-     * @param emailTo recipient's email
-     * @param message email message
-     * @param title email title
      */
-    public OutlookEmailSender(String emailTo, String message, String title) {
-        super(emailFrom, password, emailTo, title, message, properties);
+    public OutlookEmailSender() {
+        super(emailFrom, password, properties);
     }
 }

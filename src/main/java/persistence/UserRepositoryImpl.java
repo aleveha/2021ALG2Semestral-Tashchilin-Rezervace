@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DoMeUserRepository implements UserRepository {
+public class UserRepositoryImpl implements UserRepository {
     ObjectMapper objectMapper = new ObjectMapper();
     String path = "src/dataStore/users.json";
     File file = new File(path);

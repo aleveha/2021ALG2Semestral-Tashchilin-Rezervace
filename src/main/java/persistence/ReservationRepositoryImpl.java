@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DoMeReservationRepository implements ReservationRepository {
+public class ReservationRepositoryImpl implements ReservationRepository {
     List<Reservation> allReservations = null;
     ObjectMapper objectMapper = new ObjectMapper();
     String path = "src/dataStore/reservations.json";

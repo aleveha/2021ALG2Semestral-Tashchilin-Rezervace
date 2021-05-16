@@ -3,10 +3,10 @@ package app;
 import core.AuthorizationManager;
 import core.UserDoesNotExistException;
 import core.UserRepository;
-import persistence.DoMeUserRepository;
+import persistence.UserRepositoryImpl;
 
-public class DoMeAuthManager extends AuthorizationManager {
-    private final UserRepository userRepository = new DoMeUserRepository();
+public class AuthManagerImpl extends AuthorizationManager {
+    private final UserRepository userRepository = new UserRepositoryImpl();
 
     /**
      * Logging in

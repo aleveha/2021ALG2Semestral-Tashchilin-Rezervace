@@ -1,6 +1,8 @@
 package core;
 
+import app.Reservation;
+
 @FunctionalInterface
 public interface IEmailSender {
-     void sendEmail();
+     void sendEmail(Reservation reservation);
 }
