@@ -3,7 +3,6 @@ package utils;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class DateTimeParser {
     public static final String datePattern = "dd.MM.yyyy";
@@ -17,11 +16,7 @@ public class DateTimeParser {
      * @return LocalDate if input string is a real date according to special format
      */
     public static LocalDate parseDate (String date) {
-        try {
-            return LocalDate.parse(date, DateTimeFormatter.ofPattern(datePattern));
-        } catch (DateTimeParseException ex) {
-            return null;
-        }
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern(datePattern));
     }
 
     /**
@@ -30,11 +25,7 @@ public class DateTimeParser {
      * @return LocalTime if input string is a real time according to special format
      */
     public static LocalTime parseTime (String time) {
-        try {
-            return LocalTime.parse(time, DateTimeFormatter.ofPattern(timePattern));
-        } catch (DateTimeParseException ex) {
-            return null;
-        }
+        return LocalTime.parse(time, DateTimeFormatter.ofPattern(timePattern));
     }
 
     /**

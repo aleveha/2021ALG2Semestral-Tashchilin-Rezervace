@@ -15,7 +15,7 @@ import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
     ObjectMapper objectMapper = new ObjectMapper();
-    String path = "src/dataStore/users.json";
+    String path = "src/data/users.json";
     File file = new File(path);
     List<User> allUsers = null;
 

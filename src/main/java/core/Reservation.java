@@ -1,8 +1,10 @@
 package core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import utils.DateTimeParser;
+import java.time.format.DateTimeParseException;
 
-public class Reservation {
+public class Reservation implements Comparable<Reservation> {
     private final String date;
     private final String time;
     private final User user;
@@ -54,5 +56,14 @@ public class Reservation {
                 getTime(),
                 getUser()
         );
+    }
+
+    @Override
+    public int compareTo(Reservation res) {
+        try {
+            return DateTimeParser.parseDate(date).compareTo(DateTimeParser.parseDate(res.getDate())) + DateTimeParser.parseTime(time).compareTo(DateTimeParser.parseTime(res.getTime()));
+        } catch (DateTimeParseException ex) {
+            throw new DBIncorrectDateTimeFormat("Error accreted while parsing date and time strings from data store to LocalDate and LocalTime. " + ex.getMessage());
+        }
     }
 }

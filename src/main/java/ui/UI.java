@@ -9,6 +9,7 @@ import utils.DateTimeParser;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -197,8 +198,9 @@ public class UI {
             System.out.printf("Enter date using format (%s): ", datePattern.toUpperCase(Locale.ROOT));
             String inputDate = sc.nextLine();
 
-            date = DateTimeParser.parseDate(inputDate);
-            if (date == null) {
+            try {
+                date = DateTimeParser.parseDate(inputDate);
+            } catch (DateTimeParseException ex) {
                 System.out.println("Invalid date. Try again.");
             }
         }
@@ -207,8 +209,9 @@ public class UI {
             System.out.printf("Enter time using format (%s): ", timePattern.toUpperCase(Locale.ROOT));
             String inputTime = sc.nextLine();
 
-            time = DateTimeParser.parseTime(inputTime);
-            if (time == null) {
+            try {
+                time = DateTimeParser.parseTime(inputTime);
+            } catch (DateTimeParseException ex){
                 System.out.println("Invalid time. Try again.");
             }
         }

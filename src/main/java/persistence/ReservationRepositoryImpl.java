@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class ReservationRepositoryImpl implements ReservationRepository {
     List<Reservation> allReservations = null;
     ObjectMapper objectMapper = new ObjectMapper();
-    String path = "src/dataStore/reservations.json";
+    String path = "src/data/reservations.json";
     File file = new File(path);
 
     /**
@@ -28,7 +28,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     @Override
     public List<Reservation> getAll(String email) {
         fillUpCache();
-        return allReservations.stream().filter(reservation -> reservation.getUser().getEmail().equalsIgnoreCase(email)).collect(Collectors.toList());
+        return allReservations.stream().filter(reservation -> reservation.getUser().getEmail().equalsIgnoreCase(email)).sorted().collect(Collectors.toList());
     }
 
     /**

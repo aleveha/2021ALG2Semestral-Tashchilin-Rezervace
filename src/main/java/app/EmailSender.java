@@ -19,6 +19,7 @@ public class EmailSender implements IEmailSender {
     private final String emailFrom;
     private final String password;
     private final Properties properties;
+    private static final String templatePath = "src/data/emailTemplate.html";
 
     /**
      * EmailSender constructor
@@ -76,7 +77,7 @@ public class EmailSender implements IEmailSender {
         StringBuilder contentBuilder = new StringBuilder();
 
         try {
-            BufferedReader in = new BufferedReader(new FileReader("src/dataStore/emailTemplate.html"));
+            BufferedReader in = new BufferedReader(new FileReader(templatePath));
             String str;
             while ((str = in.readLine()) != null) {
                 contentBuilder.append(str);
