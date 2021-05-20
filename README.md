@@ -6,7 +6,7 @@ System was ctreated to make reservations to Covid-19 test.
 Create reservation system which allows user to register(log in) to the system and create reservations to Covid-19 tests.
 Program will be read from files and write to files user's information and information about user's reservations. 
 Program allows to print all user's reservations to console, and also will send message to user's email address after successfully created reservation.
-Program must check all inputs and throw corresponding errors if neccssary.
+Program must check all inputs and throw corresponding errors if necessary.
 
 ### Solution ###
 1. **Use case:**<br/><br/><img width="769" alt="useCase" src="https://user-images.githubusercontent.com/63300936/118825674-2c815280-b8bb-11eb-9cab-9e2dfdf0a38b.png"><br/><br/>
