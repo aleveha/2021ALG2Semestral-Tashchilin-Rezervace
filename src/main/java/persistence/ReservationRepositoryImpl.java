@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ReservationRepositoryImpl implements ReservationRepository {
-    List<Reservation> allReservations = null;
-    ObjectMapper objectMapper = new ObjectMapper();
-    String path = "src/data/reservations.json";
-    File file = new File(path);
+    private List<Reservation> allReservations = null;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final String path = "src/data/reservations.json";
+    private final File file = new File(path);
 
     /**
      * Getting all user's reservations

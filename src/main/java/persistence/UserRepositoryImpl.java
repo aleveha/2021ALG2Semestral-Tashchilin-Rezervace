@@ -14,10 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
-    ObjectMapper objectMapper = new ObjectMapper();
-    String path = "src/data/users.json";
-    File file = new File(path);
-    List<User> allUsers = null;
+    private List<User> allUsers = null;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final String path = "src/data/users.json";
+    private final File file = new File(path);
 
     /**
      * Getting user's information
