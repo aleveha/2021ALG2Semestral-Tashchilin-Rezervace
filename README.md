@@ -9,9 +9,9 @@ Program allows to print all user's reservations to console, and also will send m
 Program must check all inputs and throw corresponding errors if necessary.
 
 ### Solution ###
-1. **Use case:**<br/><br/><img width="769" alt="useCase" src="https://user-images.githubusercontent.com/63300936/118825674-2c815280-b8bb-11eb-9cab-9e2dfdf0a38b.png"><br/><br/>
-2. **Class diagram:**<br/><br/><img width="1000" alt="classDiagram" src="https://user-images.githubusercontent.com/63300936/118947644-d44c5e00-b957-11eb-9b1f-83af6624525a.png"><br/><br/>
-3. **Data store**<br/>
+1. **Use case:**<br/><br/><img width="769" alt="useCase" src="https://user-images.githubusercontent.com/63300936/120177284-8f061700-c208-11eb-950c-67c562f2b7e1.png"><br/><br/>
+3. **Class diagram:**<br/><br/><img width="1000" alt="classDiagram" src="https://user-images.githubusercontent.com/63300936/118947644-d44c5e00-b957-11eb-9b1f-83af6624525a.png"><br/><br/>
+4. **Data store**<br/>
 Program works with JSON files using Jackson library.<br/><br/>
 Users file structure:<br/>
 ```
